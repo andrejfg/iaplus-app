@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "@rocketseat/eslint-config/react"
+  ],
+  "rules": {
+    "react/no-unescaped-entities": 0,
+    "camelcase": "off"
+  }
+}
