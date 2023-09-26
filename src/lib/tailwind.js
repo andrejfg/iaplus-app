@@ -1,7 +1,9 @@
-import { create } from 'twrnc';
+import { create, useDeviceContext } from 'twrnc'
+import TailwindConfig from '../../tailwind.config.js'
 
 // create the customized version...
-const tw = create(require(`../../tailwind.config.js`)); // <- your path may differ
+
+const tw = create(TailwindConfig) // <- your path may differ
 
 // ... and then this becomes the main function your app uses
-export default tw;
+export default tw

@@ -1,54 +1,68 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { Link, Tabs } from 'expo-router'
-import { Pressable, useColorScheme } from 'react-native'
+import { Link, Tabs, router } from 'expo-router'
 
-import Colors from '@/constants/Colors'
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name']
-  color: string
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />
-}
+import HomeTabBarIcon from '@/components/HomeTabBarIcon'
+import tw from '@/lib/tailwind'
+import { TouchableOpacity, View, Text, Pressable } from 'react-native'
+import { removeToken } from '@/hooks/useAuth'
+import { FontAwesome } from '@expo/vector-icons'
+import React from 'react'
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme()
-
+  function handleLogout() {
+    removeToken()
+    router.replace('/')
+  }
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerStyle: tw`h-18`,
+        headerTitle: ({ children }) => (
+          <View
+            style={tw`-mt-3 flex-row items-center justify-center gap-4 pb-4`}
+          >
+            <FontAwesome
+              style={tw` text-light-c10`}
+              name={children === 'Conversas' ? 'comments' : 'users'}
+              size={30}
+            />
+            <Text style={tw`text-xl font-semibold`}>{children}</Text>
+          </View>
+        ),
+        tabBarStyle: [
+          tw`relative top-0 h-16 bg-light-c60 py-2 dark:bg-dark-c60`,
+        ],
+        tabBarShowLabel: false,
+        headerRight: () => (
+          <Link style={tw`-mt-3 mr-8 pb-4`} href={'/configuracao'} asChild>
+            <Pressable>
+              {({ pressed }) => (
+                <FontAwesome
+                  style={tw` text-light-c10`}
+                  name="gear"
+                  size={30}
+                />
+              )}
+            </Pressable>
+          </Link>
+        ),
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="conversas"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Conversas',
+          tabBarIcon: ({ focused }) => (
+            <HomeTabBarIcon barName="Conversas" focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="assistentes"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Assistentes',
+          tabBarIcon: ({ focused }) => (
+            <HomeTabBarIcon barName="Assistentes" focused={focused} />
+          ),
         }}
       />
     </Tabs>

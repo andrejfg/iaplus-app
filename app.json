@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "expo-sdk49-twrnc-template",
-    "slug": "expo-sdk49-twrnc-template",
+    "name": "iaplus-app",
+    "slug": "iaplus-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "iaplus-app",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./src/assets/images/splash.png",
@@ -16,9 +16,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ios.iaplus"
     },
     "android": {
+      "package": "com.android.iaplus",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -35,6 +37,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4d2d71a9-06bb-4c5c-8954-be6774993df5"
+      }
     }
   }
 }
