@@ -64,14 +64,6 @@ function RootLayoutNav() {
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="chat" />
       <Stack.Screen name="api" />
-      <Stack.Screen
-        name="configuracao"
-        options={{
-          title: 'Configuração',
-          presentation: 'modal',
-          headerShown: true,
-        }}
-      />
     </Stack>
   )
 }

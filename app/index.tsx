@@ -11,27 +11,31 @@ import Fundo from '@/assets/images/fundoLogin.png'
 import { getToken } from '@/hooks/useAuth'
 import tw from '@/lib/tailwind'
 import { useGoogleAuth } from '@/hooks/useGoogleAuth'
+import useLoading from '@/hooks/useLoading'
 
 export default function LoginScreen() {
   useDeviceContext(tw)
   const { isAuth, signInWithGoogle } = useGoogleAuth()
-  const [loading, setLoading] = useState<boolean>(false)
+  const { loading, startLoading, stopLoading } = useLoading()
   useEffect(() => {
     getToken().then((token) => {
       if (token) {
-        router.replace('/(tabs)/assistentes')
+        router.replace('/(tabs)/conversas')
       }
     })
   }, [])
 
   useEffect(() => {
     if (isAuth) {
-      setLoading(false)
-      router.replace('/(tabs)/assistentes')
-    } else {
-      setLoading(false)
+      router.replace('/(tabs)/conversas')
     }
   }, [isAuth])
+
+  async function handleLoginGoogle() {
+    startLoading()
+    await signInWithGoogle()
+    stopLoading()
+  }
 
   return (
     <View style={tw`flex-1 bg-[#06062c]`}>
@@ -65,10 +69,7 @@ export default function LoginScreen() {
               </ExternalLink>
             ) : (
               <TouchableOpacity
-                onPress={() => {
-                  setLoading(true)
-                  signInWithGoogle()
-                }}
+                onPress={handleLoginGoogle}
                 disabled={loading}
                 style={tw`h-14 w-14 items-center justify-center rounded-full border border-dark-c10`}
               >

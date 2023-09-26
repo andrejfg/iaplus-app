@@ -12,22 +12,22 @@ const HomeTabBarIcon = ({ barName, focused }: HomeTabBarIconProps) => {
   useDeviceContext(tw)
 
   return (
-    <View
-      style={[
-        tw`flex-1 items-center justify-center rounded-md px-4`,
-        focused && tw`bg-light-c30 dark:bg-dark-c30`,
-      ]}
-    >
-      <Text
-        style={[
-          tw`text-base font-semibold`,
-          focused
-            ? tw`text-light-c10_alt dark:text-dark-c10`
-            : tw`text-light-c30 dark:text-dark-c10`,
-        ]}
-      >
-        {barName}
-      </Text>
+    <View style={tw`w-full flex-1 items-center justify-center px-4`}>
+      <View style={tw`flex-1 items-center justify-center`}>
+        <Text
+          style={[
+            tw`text-base font-semibold text-light-c30 dark:text-dark-c10`,
+          ]}
+        >
+          {barName}
+        </Text>
+      </View>
+      <View
+        style={
+          focused &&
+          tw` w-full rounded-md border border-light-c30 dark:border-dark-c10`
+        }
+      />
     </View>
   )
 }

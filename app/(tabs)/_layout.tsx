@@ -6,45 +6,17 @@ import { TouchableOpacity, View, Text, Pressable } from 'react-native'
 import { removeToken } from '@/hooks/useAuth'
 import { FontAwesome } from '@expo/vector-icons'
 import React from 'react'
+import { Screen } from 'react-native-screens'
+import ConfiguracaoTabBarIcon from '@/components/ConfiguracaoTabBarIcon'
 
 export default function TabLayout() {
-  function handleLogout() {
-    removeToken()
-    router.replace('/')
-  }
   return (
     <Tabs
       screenOptions={{
-        headerStyle: tw`h-18`,
-        headerTitle: ({ children }) => (
-          <View
-            style={tw`-mt-3 flex-row items-center justify-center gap-4 pb-4`}
-          >
-            <FontAwesome
-              style={tw` text-light-c10`}
-              name={children === 'Conversas' ? 'comments' : 'users'}
-              size={30}
-            />
-            <Text style={tw`text-xl font-semibold`}>{children}</Text>
-          </View>
-        ),
-        tabBarStyle: [
-          tw`relative top-0 h-16 bg-light-c60 py-2 dark:bg-dark-c60`,
-        ],
+        headerShown: false,
+        tabBarStyle: [tw`absolute top-0 h-14 bg-light-c60 dark:bg-dark-c60`],
         tabBarShowLabel: false,
-        headerRight: () => (
-          <Link style={tw`-mt-3 mr-8 pb-4`} href={'/configuracao'} asChild>
-            <Pressable>
-              {({ pressed }) => (
-                <FontAwesome
-                  style={tw` text-light-c10`}
-                  name="gear"
-                  size={30}
-                />
-              )}
-            </Pressable>
-          </Link>
-        ),
+        tabBarItemStyle: tw`z-10 w-full`,
       }}
     >
       <Tabs.Screen
@@ -63,6 +35,16 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <HomeTabBarIcon barName="Assistentes" focused={focused} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="configuracao"
+        options={{
+          title: 'Configuração',
+          tabBarIcon: ({ focused }) => (
+            <ConfiguracaoTabBarIcon focused={focused} />
+          ),
+          tabBarItemStyle: tw`z-0 -mx-10`,
         }}
       />
     </Tabs>

@@ -22,7 +22,6 @@ export const useGoogleAuth = () => {
 
   async function handleGoogleOAuthCode(accessToken: string) {
     const { token } = await googleToken({ accessToken })
-    console.log(token)
     setToken(token)
     setIsAuth(true)
   }
