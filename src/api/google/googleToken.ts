@@ -1,4 +1,3 @@
-import { TokenResponse } from 'expo-auth-session'
 import { api } from '../api'
 interface googleTokenProps {
   code?: string

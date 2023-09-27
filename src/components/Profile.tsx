@@ -1,7 +1,7 @@
 import tw from '@/lib/tailwind'
-import { User } from '@/utils/getUserInfo'
+import User from '@/types/User'
+import { FontAwesome } from '@expo/vector-icons'
 import { Image } from 'expo-image'
-import { ReactNode } from 'react'
 import { View, Text } from 'react-native'
 import { useDeviceContext } from 'twrnc'
 
@@ -23,11 +23,16 @@ export default function Profile({ user, children }: ProfileProps) {
         <View
           style={tw`h-32 w-32 rounded-full bg-gray-200 bg-opacity-50 shadow-lg`}
         >
-          {user && (
+          {user && user.avatarUrl ? (
             <Image
               style={tw`flex-1  rounded-full`}
               source={{ uri: user.avatarUrl }}
               alt="Profile"
+            />
+          ) : (
+            <FontAwesome
+              style={tw`flex-1 text-3xl text-light-c10 dark:text-dark-c10`}
+              name="user"
             />
           )}
         </View>

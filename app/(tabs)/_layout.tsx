@@ -1,15 +1,13 @@
-import { Link, Tabs, router } from 'expo-router'
-
+import { Tabs } from 'expo-router'
 import HomeTabBarIcon from '@/components/HomeTabBarIcon'
 import tw from '@/lib/tailwind'
-import { TouchableOpacity, View, Text, Pressable } from 'react-native'
-import { removeToken } from '@/hooks/useAuth'
-import { FontAwesome } from '@expo/vector-icons'
 import React from 'react'
-import { Screen } from 'react-native-screens'
 import ConfiguracaoTabBarIcon from '@/components/ConfiguracaoTabBarIcon'
 
 export default function TabLayout() {
+  return <HomeTabs />
+}
+function HomeTabs() {
   return (
     <Tabs
       screenOptions={{

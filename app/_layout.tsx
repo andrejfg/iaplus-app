@@ -4,9 +4,11 @@ import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { Platform, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDeviceContext } from 'twrnc'
+import { RootSiblingParent } from 'react-native-root-siblings'
+import { HomeContextProvider } from '@/contexts/HomeContext'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,7 +25,6 @@ SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   useDeviceContext(tw)
-  const insets = useSafeAreaInsets()
   const [loaded, error] = useFonts({
     SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -39,31 +40,31 @@ export default function RootLayout() {
       SplashScreen.hideAsync()
     }
   }, [loaded])
-
   if (!loaded) {
     return null
   }
+  function RootLayoutNav() {
+    return (
+      <HomeContextProvider>
+        <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="chat/[id]" />
+          <Stack.Screen name="newAssistente" />
+        </Stack>
+      </HomeContextProvider>
+    )
+  }
 
   return (
-    <View
-      style={[
-        tw`flex-1 bg-light-c60 dark:bg-dark-c60`,
-        { paddingTop: insets.top, paddingBottom: insets.bottom },
-      ]}
-    >
-      <RootLayoutNav />
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} translucent />
-    </View>
-  )
-}
-
-function RootLayoutNav() {
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="chat" />
-      <Stack.Screen name="api" />
-    </Stack>
+    <RootSiblingParent>
+      <SafeAreaView style={tw`flex-1`}>
+        <RootLayoutNav />
+        <StatusBar
+          style={Platform.OS === 'ios' ? 'light' : 'auto'}
+          translucent
+        />
+      </SafeAreaView>
+    </RootSiblingParent>
   )
 }

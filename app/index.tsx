@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { router } from 'expo-router'
 import { useDeviceContext } from 'twrnc'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { View, Text, Image, Platform } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import getGoogleOAuthURL from '@/utils/getGoogleOAuthURL'
 import LogoIAPlus from '@/assets/images/LogoIAPLUS.png'
-import ExternalLink from '@/components/ExternalLink'
 import Fundo from '@/assets/images/fundoLogin.png'
 import { getToken } from '@/hooks/useAuth'
 import tw from '@/lib/tailwind'
@@ -59,23 +57,13 @@ export default function LoginScreen() {
         <View style={tw`items-center justify-center gap-8`}>
           <Text style={tw`text-3xl font-semibold text-white`}>Faça Login:</Text>
           <View style={tw` w-full flex-row items-center justify-evenly`}>
-            {Platform.OS === 'web' ? (
-              <ExternalLink href={getGoogleOAuthURL()}>
-                <View
-                  style={tw`h-14 w-14 items-center justify-center rounded-full border border-dark-c10`}
-                >
-                  <FontAwesome name="google" size={35} color="white" />
-                </View>
-              </ExternalLink>
-            ) : (
-              <TouchableOpacity
-                onPress={handleLoginGoogle}
-                disabled={loading}
-                style={tw`h-14 w-14 items-center justify-center rounded-full border border-dark-c10`}
-              >
-                <FontAwesome name="google" size={35} color="white" />
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              onPress={handleLoginGoogle}
+              disabled={loading}
+              style={tw`h-14 w-14 items-center justify-center rounded-full border border-dark-c10`}
+            >
+              <FontAwesome name="google" size={35} color="white" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

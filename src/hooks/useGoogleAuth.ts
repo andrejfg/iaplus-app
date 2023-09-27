@@ -3,8 +3,6 @@ import * as Google from 'expo-auth-session/providers/google'
 import { setToken } from './useAuth'
 import googleToken from '@/api/google/googleToken'
 import * as WebBrowser from 'expo-web-browser'
-import { TokenResponse, makeRedirectUri } from 'expo-auth-session'
-import { redirect_uri } from '@/utils/getGoogleOAuthURL'
 
 WebBrowser.maybeCompleteAuthSession()
 
