@@ -40,7 +40,7 @@ export default function ConversasScreen() {
 
   return (
     <ScrollView
-      style={tw`flex-1 bg-light-c60 pt-14 dark:bg-dark-c60`}
+      style={tw`flex-1 bg-light-c60 dark:bg-dark-c60`}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={getConversas} />
       }

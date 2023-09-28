@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { router } from 'expo-router'
 import { useDeviceContext } from 'twrnc'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
@@ -10,22 +10,51 @@ import { getToken } from '@/hooks/useAuth'
 import tw from '@/lib/tailwind'
 import { useGoogleAuth } from '@/hooks/useGoogleAuth'
 import useLoading from '@/hooks/useLoading'
+import { HomeContext } from '@/contexts/HomeContext'
+import { api } from '@/api/api'
+import Toast from 'react-native-root-toast'
+import getUserInfo from '@/utils/getUserInfo'
+import getUserConversas from '@/api/getUserConversas'
+import getAssistentesVirtuais from '@/api/getAssistentesVirtuais'
 
 export default function LoginScreen() {
   useDeviceContext(tw)
+  const { setAssistentes, setConversas, setUser } = useContext(HomeContext)
   const { isAuth, signInWithGoogle } = useGoogleAuth()
+  const [serverWorking, setServerWorking] = useState(false)
   const { loading, startLoading, stopLoading } = useLoading()
+  async function handleIsAuth() {
+    startLoading()
+    setUser(await getUserInfo())
+    setConversas(await getUserConversas())
+    setAssistentes(await getAssistentesVirtuais())
+    stopLoading()
+    router.replace('/(tabs)/conversas')
+  }
   useEffect(() => {
-    getToken().then((token) => {
-      if (token) {
-        router.replace('/(tabs)/conversas')
-      }
-    })
+    api
+      .get('/server')
+      .then((response) => {
+        if (response.status === 200) {
+          getToken().then(async (token) => {
+            setServerWorking(true)
+            if (token) handleIsAuth()
+          })
+        }
+      })
+      .catch(() => {
+        setServerWorking(false)
+        Toast.show('Erro ao conectar com servidor.', {
+          position: 50,
+          backgroundColor: 'red',
+          duration: Toast.durations.SHORT,
+        })
+      })
   }, [])
 
   useEffect(() => {
     if (isAuth) {
-      router.replace('/(tabs)/conversas')
+      handleIsAuth()
     }
   }, [isAuth])
 
@@ -59,7 +88,7 @@ export default function LoginScreen() {
           <View style={tw` w-full flex-row items-center justify-evenly`}>
             <TouchableOpacity
               onPress={handleLoginGoogle}
-              disabled={loading}
+              disabled={loading || !serverWorking}
               style={tw`h-14 w-14 items-center justify-center rounded-full border border-dark-c10`}
             >
               <FontAwesome name="google" size={35} color="white" />

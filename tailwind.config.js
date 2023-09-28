@@ -8,7 +8,7 @@ module.exports = {
         light: {
           c10: '#000010',
           c10_alt: '#ccdedb',
-          c30: '#062863',
+          c30: '#051752',
           c60: '#F0F8FF',
         },
         dark: {

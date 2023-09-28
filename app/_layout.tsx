@@ -4,7 +4,6 @@ import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDeviceContext } from 'twrnc'
 import { RootSiblingParent } from 'react-native-root-siblings'
@@ -60,10 +59,7 @@ export default function RootLayout() {
     <RootSiblingParent>
       <SafeAreaView style={tw`flex-1`}>
         <RootLayoutNav />
-        <StatusBar
-          style={Platform.OS === 'ios' ? 'light' : 'auto'}
-          translucent
-        />
+        <StatusBar style={'light'} translucent />
       </SafeAreaView>
     </RootSiblingParent>
   )

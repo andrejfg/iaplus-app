@@ -9,8 +9,9 @@ import { useDeviceContext } from 'twrnc'
 import deleteConversaByID from '@/api/deleteConversaByID'
 import useLoading from '@/hooks/useLoading'
 import Toast from 'react-native-root-toast'
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from './Header'
+import { HomeContext } from '@/contexts/HomeContext'
 
 interface HeaderChatProps {
   assistente?: AssistenteVirtual
@@ -24,6 +25,7 @@ export default function HeaderChat({
 }: HeaderChatProps) {
   useDeviceContext(tw)
   const { loading, startLoading, stopLoading } = useLoading()
+  const { setConversas } = useContext(HomeContext)
   async function removeChat() {
     if (conversaId) {
       startLoading()
@@ -34,6 +36,9 @@ export default function HeaderChat({
           duration: Toast.durations.SHORT,
         })
       })
+      setConversas((prev) =>
+        prev.filter((conversa) => conversa.id !== conversaId),
+      )
       stopLoading()
     }
     router.replace('/conversas')

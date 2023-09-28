@@ -22,7 +22,9 @@ export default function ConfiguracaoScreen() {
   }
 
   return (
-    <View style={tw`flex-1 items-center justify-center gap-8 pt-14`}>
+    <View
+      style={tw`flex-1 items-center justify-center gap-8 bg-light-c60 dark:bg-dark-c60`}
+    >
       <Profile user={user}>
         <TouchableOpacity
           activeOpacity={0.7}

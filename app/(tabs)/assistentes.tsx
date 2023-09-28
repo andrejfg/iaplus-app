@@ -72,7 +72,7 @@ export default function AssistentesScreen() {
   return (
     <View style={tw`flex-1`}>
       <ScrollView
-        style={tw`flex-1 bg-light-c60  pt-14 dark:bg-dark-c60`}
+        style={tw`flex-1 bg-light-c60 dark:bg-dark-c60`}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={getAssistentes} />
         }

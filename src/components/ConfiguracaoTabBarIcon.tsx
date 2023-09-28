@@ -1,31 +1,20 @@
 import tw from '@/lib/tailwind'
 import { FontAwesome } from '@expo/vector-icons'
+import { Link } from 'expo-router'
 import { View } from 'react-native'
 import { useDeviceContext } from 'twrnc'
 
-type ConfiguracaoTabBarIconProps = {
-  focused: boolean
-}
-
-const ConfiguracaoTabBarIcon = ({ focused }: ConfiguracaoTabBarIconProps) => {
+const ConfiguracaoTabBarIcon = () => {
   useDeviceContext(tw)
-
   return (
-    <View style={tw`w-18 flex-1 items-center justify-center`}>
-      <View style={tw`flex-1 items-center justify-center`}>
+    <Link href="/configuracao" style={tw`h-full`}>
+      <View style={tw` w-8 flex-1 items-center justify-center`}>
         <FontAwesome
           name="gear"
-          size={20}
-          style={[tw` text-light-c30 dark:text-dark-c10`]}
+          style={[tw`text-2xl text-light-c10_alt dark:text-dark-c10`]}
         />
       </View>
-      <View
-        style={
-          focused &&
-          tw` w-10 rounded-lg border-b border-t border-light-c30 dark:border-dark-c10`
-        }
-      />
-    </View>
+    </Link>
   )
 }
 
