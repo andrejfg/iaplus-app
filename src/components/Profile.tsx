@@ -6,7 +6,7 @@ import { View, Text } from 'react-native'
 import { useDeviceContext } from 'twrnc'
 
 interface ProfileProps {
-  user: User | null
+  user: User | undefined
   children?: React.JSX.Element
 }
 

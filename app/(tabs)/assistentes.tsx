@@ -12,6 +12,7 @@ import { api } from '@/api/api'
 import getAssistentesVirtuais from '@/api/getAssistentesVirtuais'
 import AddAssistente from '@/components/AddAssistente'
 import { HomeContext } from '@/contexts/HomeContext'
+import deleteAssistenteVirtual from '@/api/deleteAssistenteVirtual'
 
 export default function AssistentesScreen() {
   useDeviceContext(tw)
@@ -51,7 +52,6 @@ export default function AssistentesScreen() {
         })
         stopLoading()
       })
-    console.log(newChat)
     setConversas((prev) => [...prev, newChat])
     stopLoading()
     router.push(`/chat/${newChat.id}`)
@@ -63,6 +63,11 @@ export default function AssistentesScreen() {
     }, 15000)
     return () => clearInterval(interval)
   }, [])
+
+  async function handleDelete(id: string) {
+    await deleteAssistenteVirtual(id)
+    getAssistentes()
+  }
 
   return (
     <View style={tw`flex-1`}>
@@ -76,6 +81,7 @@ export default function AssistentesScreen() {
           {assistentes &&
             assistentes.map((assistente) => (
               <AssistenteCard
+                handleDelete={() => handleDelete(assistente.id)}
                 assistente={assistente}
                 handleCardClick={getNewChat}
                 disable={loading || refreshing}
