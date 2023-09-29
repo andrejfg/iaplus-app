@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "iaplus-app",
+    "name": "IAPlus",
     "slug": "iaplus-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
     "scheme": "iaplus-app",
     "userInterfaceStyle": "automatic",
-    "backgroundColor":"#051752",
+    "backgroundColor":"#06062c",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#051752"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,7 +24,7 @@
       "package": "com.android.iaplus",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#051752"
       }
     },
     "web": {

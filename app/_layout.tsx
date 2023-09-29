@@ -8,7 +8,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDeviceContext } from 'twrnc'
 import { RootSiblingParent } from 'react-native-root-siblings'
 import { HomeContextProvider } from '@/contexts/HomeContext'
-import { NavigationContainer } from '@react-navigation/native'
 
 export {
   // Catch any errors thrown by the Layout component.
