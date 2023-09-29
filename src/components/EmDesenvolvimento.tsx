@@ -6,7 +6,9 @@ import { useDeviceContext } from 'twrnc'
 export default function EmDesenvolvimento() {
   useDeviceContext(tw)
   return (
-    <View style={tw`flex-1 items-center justify-center gap-8`}>
+    <View
+      style={tw`flex-1 items-center justify-center gap-8 bg-light-c60 dark:bg-dark-c60`}
+    >
       <Text
         style={tw`text-2xl font-semibold text-light-c10 dark:text-dark-c10`}
       >

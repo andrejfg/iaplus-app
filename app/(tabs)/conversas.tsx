@@ -6,7 +6,6 @@ import useLoading from '@/hooks/useLoading'
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler'
 import ConversaCard from '@/components/ConversaCard'
 import getUserConversas from '@/api/getUserConversas'
-import Toast from 'react-native-root-toast'
 import compareDate from '@/utils/compareDate'
 import { HomeContext } from '@/contexts/HomeContext'
 
@@ -18,13 +17,7 @@ export default function ConversasScreen() {
 
   async function getConversas() {
     setRefreshing(true)
-    const conversas = await getUserConversas().catch(() => {
-      Toast.show('Erro ao recuperar a lista de conversas.', {
-        position: 50,
-        backgroundColor: 'red',
-        duration: Toast.durations.SHORT,
-      })
-    })
+    const conversas = await getUserConversas()
     if (conversas) {
       setConversas(conversas)
     }

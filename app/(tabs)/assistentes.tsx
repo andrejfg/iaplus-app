@@ -27,18 +27,13 @@ export default function AssistentesScreen() {
 
   async function getAssistentes() {
     setRefreshing(true)
-    const assistentes = await getAssistentesVirtuais().catch(() => {
-      Toast.show('Erro ao recuperar a lista de assistentes.', {
-        position: 50,
-        backgroundColor: 'red',
-        duration: Toast.durations.SHORT,
-      })
-    })
+    const assistentes = await getAssistentesVirtuais()
     if (assistentes) {
       setAssistentes(assistentes)
     }
     setRefreshing(false)
   }
+
   async function getNewChat(virtualId: string) {
     startLoading()
     const newChat: Conversa = await api
@@ -70,9 +65,9 @@ export default function AssistentesScreen() {
   }
 
   return (
-    <View style={tw`flex-1`}>
+    <View style={tw`flex-1 bg-light-c60 dark:bg-dark-c60`}>
       <ScrollView
-        style={tw`flex-1 bg-light-c60 dark:bg-dark-c60`}
+        style={tw`flex-1 `}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={getAssistentes} />
         }
