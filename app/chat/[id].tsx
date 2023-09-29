@@ -22,24 +22,15 @@ import sendMessageToChat from '@/api/sendMessageToChat'
 import getRespostaGPT from '@/api/getRespostaGPT'
 import { HomeContext } from '@/contexts/HomeContext'
 import Conversa from '@/types/Conversa'
+import AssistenteVirtual from '@/types/AssistenteVirtual'
 
 export default function ChatScreen() {
   useDeviceContext(tw)
   const { id }: { id: string } = useGlobalSearchParams()
-  const { assistentes, conversas } = useContext(HomeContext)
-  const conversa = conversas.find((conversa) => conversa.id === id) as Conversa
-
-  if (!conversa) {
-    router.replace('/conversas')
-  }
-
-  const assistente = assistentes.find(
-    (assistente) => assistente.id === conversa!.pessoaVirtual.id,
-  )
-  const [mensagens, setMensagens] = useState<Mensagem[]>(
-    conversa ? conversa.Mensagem : [],
-  )
-
+  const { conversas } = useContext(HomeContext)
+  const [assistente, setAssistente] = useState<AssistenteVirtual>()
+  const [conversa, setConversa] = useState<Conversa>()
+  const [mensagens, setMensagens] = useState<Mensagem[]>([])
   const [refreshing, setRefreshing] = useState(false)
   const [userInput, setUserInput] = useState<string>('')
   const { loading, startLoading, stopLoading } = useLoading()
@@ -53,6 +44,17 @@ export default function ChatScreen() {
     startLoading: startRecebendo,
     stopLoading: stopRecebendo,
   } = useLoading()
+
+  useEffect(() => {
+    const newConversa = conversas.find((conversa) => conversa.id === id)
+    if (newConversa) {
+      setConversa(newConversa)
+      setAssistente(newConversa.pessoaVirtual)
+      setMensagens(newConversa.Mensagem)
+    } else {
+      router.replace('/conversas')
+    }
+  }, [])
 
   async function refreshChat() {
     setRefreshing(true)
@@ -178,14 +180,16 @@ export default function ChatScreen() {
           <ActivityIndicator style={tw`self-center`} size={50} />
         </View>
       )}
-      <ChatInput
-        conversa={conversa}
-        disable={recebendo || digitando}
-        userInput={userInput}
-        setUserInput={setUserInput}
-        sendMessage={sendMessage}
-        handleKeyDown={handleKeyDown}
-      />
+      {conversa && (
+        <ChatInput
+          conversa={conversa}
+          disable={recebendo || digitando}
+          userInput={userInput}
+          setUserInput={setUserInput}
+          sendMessage={sendMessage}
+          handleKeyDown={handleKeyDown}
+        />
+      )}
     </View>
   )
 }

@@ -13,23 +13,26 @@ import getAssistentesVirtuais from '@/api/getAssistentesVirtuais'
 import AddAssistente from '@/components/AddAssistente'
 import { HomeContext } from '@/contexts/HomeContext'
 import deleteAssistenteVirtual from '@/api/deleteAssistenteVirtual'
+import handleLogout from '@/utils/handleLogout'
+import CustomSearchBar from '@/components/CustomSearchBar'
+import removerAcentos from '@/utils/removerAcentosString'
 
 export default function AssistentesScreen() {
   useDeviceContext(tw)
-  const {
-    user: userInfo,
-    assistentes,
-    setAssistentes,
-    setConversas,
-  } = useContext(HomeContext)
+  const context = useContext(HomeContext)
+  const { user: userInfo, assistentes, setAssistentes, setConversas } = context
   const { loading, startLoading, stopLoading } = useLoading()
   const [refreshing, setRefreshing] = useState(false)
+  const [textFilter, setTextFilter] = useState('')
 
   async function getAssistentes() {
     setRefreshing(true)
     const assistentes = await getAssistentesVirtuais()
     if (assistentes) {
       setAssistentes(assistentes)
+    } else {
+      await handleLogout(context)
+      router.replace('/')
     }
     setRefreshing(false)
   }
@@ -64,8 +67,32 @@ export default function AssistentesScreen() {
     getAssistentes()
   }
 
+  function filtrarAssistentes() {
+    if (!textFilter) {
+      return assistentes // Retorna todos os usuários se a pesquisa estiver vazia
+    }
+
+    const pesquisaMinuscula = removerAcentos(textFilter).toLowerCase()
+
+    return assistentes.filter((assistente) => {
+      const nomeMinusculo = removerAcentos(assistente.nome).toLowerCase()
+      const profissaoMinusculo = assistente.profissao.toLowerCase()
+
+      // Verifica se o texto de pesquisa está incluído no nome ou no googleEmail
+      return (
+        nomeMinusculo.includes(pesquisaMinuscula) ||
+        profissaoMinusculo.includes(pesquisaMinuscula)
+      )
+    })
+  }
+
   return (
     <View style={tw`flex-1 bg-light-c60 dark:bg-dark-c60`}>
+      <CustomSearchBar
+        text={textFilter}
+        setText={setTextFilter}
+        placeholder="Buscar assistente"
+      />
       <ScrollView
         style={tw`flex-1 `}
         refreshControl={
@@ -74,7 +101,7 @@ export default function AssistentesScreen() {
       >
         <View style={tw`flex-1  pb-14 `}>
           {assistentes &&
-            assistentes.map((assistente) => (
+            filtrarAssistentes().map((assistente) => (
               <AssistenteCard
                 handleDelete={() => handleDelete(assistente.id)}
                 assistente={assistente}

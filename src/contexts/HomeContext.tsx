@@ -3,7 +3,7 @@ import Conversa from '@/types/Conversa'
 import User from '@/types/User'
 import { createContext, useState } from 'react'
 
-interface HomeContextProps {
+export interface HomeContextProps {
   user: User | undefined
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>
   assistentes: AssistenteVirtual[]

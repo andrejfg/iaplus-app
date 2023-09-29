@@ -32,13 +32,20 @@ export default function FormAssistente({ assistente }: FormAssistenteProps) {
 
   const onSubmit: SubmitHandler<assistenteSchemaType> = async (data) => {
     startLoading()
-    const avatarUrl = await uploadImage(avatarUri).catch(() => {
-      Toast.show('Erro ao enviar imagem.', {
-        position: 50,
-        backgroundColor: 'red',
-        duration: Toast.durations.SHORT,
+    let avatarUrl
+    if (avatarUri) {
+      avatarUrl = await uploadImage(avatarUri).catch(() => {
+        Toast.show('Erro ao enviar imagem.', {
+          position: 50,
+          backgroundColor: 'red',
+          duration: Toast.durations.SHORT,
+        })
       })
-    })
+    } else if (assistente) {
+      avatarUrl = assistente.avatarUrl
+    } else {
+      avatarUrl = ''
+    }
 
     const body = { ...data, avatarUrl }
     if (!assistente) {
