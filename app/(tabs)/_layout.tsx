@@ -37,7 +37,6 @@ function HomeTabs() {
       <Tab.Navigator
         initialRouteName="Conversas"
         screenOptions={{
-          lazy: true,
           tabBarLabelStyle: tw`text-xs`,
           tabBarIndicatorStyle: tw`bg-light-c30 dark:bg-dark-c10`,
         }}

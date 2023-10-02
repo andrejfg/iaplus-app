@@ -66,7 +66,7 @@ export default function AssistenteCard({
               />
             </View>
           )}
-          <View style={[user?.administrador && tw`w-3/4`]}>
+          <View style={[user?.administrador && tw`w-2/3`]}>
             <Text
               style={tw`text-lg font-bold text-light-c10 dark:text-dark-c10`}
             >
@@ -79,7 +79,7 @@ export default function AssistenteCard({
         </TouchableOpacity>
         {user?.administrador && (
           <View
-            style={tw`absolute right-0 w-1/4 flex-row items-center justify-center`}
+            style={tw`absolute right-0 h-full w-1/4 flex-row items-center justify-center`}
           >
             <View style={tw`h-10 w-10`}>
               <TouchableOpacity
@@ -90,7 +90,7 @@ export default function AssistenteCard({
                 <FontAwesome style={tw`text-xl`} name="pencil" />
               </TouchableOpacity>
             </View>
-            <View style={tw`h-16 w-16`}>
+            <View style={tw`h-10 w-10`}>
               <TouchableOpacity
                 onPress={handleDeleteCard}
                 activeOpacity={0.7}

@@ -18,7 +18,7 @@ export default function UserCard({ user }: UserCardProps) {
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
-          router.push(`/users/${user.id}`)
+          router.push(`/usuarios/${user.id}`)
         }}
         style={tw`flex-1 flex-row items-center gap-4  px-4`}
       >
