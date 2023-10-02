@@ -66,7 +66,7 @@ export default function AssistenteCard({
               />
             </View>
           )}
-          <View>
+          <View style={[user?.administrador && tw`w-3/4`]}>
             <Text
               style={tw`text-lg font-bold text-light-c10 dark:text-dark-c10`}
             >
@@ -78,8 +78,10 @@ export default function AssistenteCard({
           </View>
         </TouchableOpacity>
         {user?.administrador && (
-          <View style={tw`flex-row`}>
-            <View style={tw`h-16 w-16`}>
+          <View
+            style={tw`absolute right-0 w-1/4 flex-row items-center justify-center`}
+          >
+            <View style={tw`h-10 w-10`}>
               <TouchableOpacity
                 onPress={handleEdit}
                 activeOpacity={0.7}

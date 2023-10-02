@@ -34,7 +34,7 @@ export default function DrawerContent({
             <TouchableOpacity
               onPress={() => {
                 navigation.closeDrawer()
-                router.push('/users')
+                router.push('/usuarios/')
               }}
               style={tw`items-center justify-center rounded-full border bg-light-c10 px-4 py-1.5 dark:bg-dark-c10`}
             >

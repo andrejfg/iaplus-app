@@ -7,7 +7,7 @@ import { useDeviceContext } from 'twrnc'
 
 interface ProfileProps {
   user: User | undefined
-  children?: React.JSX.Element
+  children?: React.JSX.Element | React.JSX.Element[]
 }
 
 export default function Profile({ user, children }: ProfileProps) {
@@ -56,11 +56,10 @@ export default function Profile({ user, children }: ProfileProps) {
             <Text style={tw`text-sm text-light-c10 dark:text-dark-c10`}>
               {user?.administrador ? 'Administrador' : 'Usuário teste'}
             </Text>
+            {children}
           </View>
         </View>
       </View>
-
-      {children}
     </View>
   )
 }

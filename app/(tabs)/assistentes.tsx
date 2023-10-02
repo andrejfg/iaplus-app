@@ -16,6 +16,7 @@ import deleteAssistenteVirtual from '@/api/deleteAssistenteVirtual'
 import handleLogout from '@/utils/handleLogout'
 import CustomSearchBar from '@/components/CustomSearchBar'
 import removerAcentos from '@/utils/removerAcentosString'
+import compareDate from '@/utils/compareDate'
 
 export default function AssistentesScreen() {
   useDeviceContext(tw)
@@ -101,15 +102,17 @@ export default function AssistentesScreen() {
       >
         <View style={tw`flex-1  pb-14 `}>
           {assistentes &&
-            filtrarAssistentes().map((assistente) => (
-              <AssistenteCard
-                handleDelete={() => handleDelete(assistente.id)}
-                assistente={assistente}
-                handleCardClick={getNewChat}
-                disable={loading || refreshing}
-                key={assistente.id}
-              />
-            ))}
+            filtrarAssistentes()
+              .sort((a, b) => a.nome.localeCompare(b.nome))
+              .map((assistente) => (
+                <AssistenteCard
+                  handleDelete={() => handleDelete(assistente.id)}
+                  assistente={assistente}
+                  handleCardClick={getNewChat}
+                  disable={loading || refreshing}
+                  key={assistente.id}
+                />
+              ))}
         </View>
       </ScrollView>
       {userInfo && userInfo.administrador && <AddAssistente />}

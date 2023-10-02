@@ -41,6 +41,7 @@ export default function LoginScreen() {
         if (response.status === 200) {
           getToken().then(async (token) => {
             setServerWorking(true)
+            console.log(token)
             if (token) handleIsAuth()
           })
         }

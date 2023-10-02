@@ -5,6 +5,7 @@ import { useDeviceContext } from 'twrnc'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { FontAwesome } from '@expo/vector-icons'
 import PessoaFisicaAdmin from '@/types/PessoaFisicaAdmin'
+import { router } from 'expo-router'
 
 interface UserCardProps {
   user: PessoaFisicaAdmin
@@ -16,6 +17,9 @@ export default function UserCard({ user }: UserCardProps) {
     <View style={tw`mb-0.5 h-20 w-full flex-row justify-between bg-slate-50`}>
       <TouchableOpacity
         activeOpacity={0.7}
+        onPress={() => {
+          router.push(`/users/${user.id}`)
+        }}
         style={tw`flex-1 flex-row items-center gap-4  px-4`}
       >
         {user.avatarUrl ? (
