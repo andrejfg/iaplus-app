@@ -43,13 +43,13 @@ export default function ConfiguracaoScreen() {
     }
     setRefreshing(false)
   }
-  useEffect(() => {
-    getUsers()
-    const interval = setInterval(() => {
-      getUsers()
-    }, 15000)
-    return () => clearInterval(interval)
-  }, [])
+  // useEffect(() => {
+  //   getUsers()
+  //   const interval = setInterval(() => {
+  //     getUsers()
+  //   }, 15000)
+  //   return () => clearInterval(interval)
+  // }, [])
 
   function filtrarUsuarios() {
     if (!filtroPesquisa) {

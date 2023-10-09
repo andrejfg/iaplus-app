@@ -2,7 +2,8 @@ import { getToken } from '@/hooks/useAuth'
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: 'https://api.iaplus.io',
+  // baseURL: 'https://api.iaplus.io',
+  baseURL: 'http://192.168.15.12:3333',
 })
 
 api.interceptors.request.use(

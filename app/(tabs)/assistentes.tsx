@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 import tw from '@/lib/tailwind'
 import { router } from 'expo-router'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import AssistenteCard from '@/components/AssistenteCard'
 import { useDeviceContext } from 'twrnc'
 import Conversa from '@/types/Conversa'
@@ -16,7 +16,6 @@ import deleteAssistenteVirtual from '@/api/deleteAssistenteVirtual'
 import handleLogout from '@/utils/handleLogout'
 import CustomSearchBar from '@/components/CustomSearchBar'
 import removerAcentos from '@/utils/removerAcentosString'
-import compareDate from '@/utils/compareDate'
 
 export default function AssistentesScreen() {
   useDeviceContext(tw)
@@ -56,12 +55,12 @@ export default function AssistentesScreen() {
     router.push(`/chat/${newChat.id}`)
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getAssistentes()
-    }, 15000)
-    return () => clearInterval(interval)
-  }, [])
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     getAssistentes()
+  //   }, 15000)
+  //   return () => clearInterval(interval)
+  // }, [])
 
   async function handleDelete(id: string) {
     await deleteAssistenteVirtual(id)

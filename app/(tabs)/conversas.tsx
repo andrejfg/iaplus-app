@@ -1,6 +1,6 @@
 import { View } from 'react-native'
 import tw from '@/lib/tailwind'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useDeviceContext } from 'twrnc'
 import useLoading from '@/hooks/useLoading'
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler'
@@ -33,12 +33,12 @@ export default function ConversasScreen() {
     setRefreshing(false)
   }
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getConversas()
-    }, 15000)
-    return () => clearInterval(interval)
-  }, [conversas])
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     getConversas()
+  //   }, 15000)
+  //   return () => clearInterval(interval)
+  // }, [conversas])
 
   function filtrarConversas() {
     if (!textFilter) {

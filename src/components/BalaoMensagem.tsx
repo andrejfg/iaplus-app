@@ -33,15 +33,15 @@ export default function BalaoMensagem({ mensagem }: BalaoMensagemProps) {
       ]}
     >
       {mensagem.role === 'system' && (
-        <View style={[tw`bg-balloon-system h-2 w-2 rounded-bl-full`]} />
+        <View style={[tw`h-2 w-2 rounded-bl-full bg-balloon-system`]} />
       )}
       <View
         style={[
           tw`min-h-10 flex-row items-center justify-between p-1.5`,
           mensagem.role === 'user' &&
-            tw`bg-balloon-user self-end rounded-l-lg rounded-br-lg`,
+            tw`self-end rounded-l-lg rounded-br-lg bg-balloon-user`,
           mensagem.role === 'system' &&
-            tw`bg-balloon-system self-start rounded-r-lg rounded-bl-lg`,
+            tw`self-start rounded-r-lg rounded-bl-lg bg-balloon-system`,
         ]}
       >
         <View
@@ -66,7 +66,7 @@ export default function BalaoMensagem({ mensagem }: BalaoMensagemProps) {
         </View>
       </View>
       {mensagem.role === 'user' && (
-        <View style={[tw`bg-balloon-user h-2 w-2 rounded-br-full`]} />
+        <View style={[tw`h-2 w-2 rounded-br-full bg-balloon-user`]} />
       )}
     </TouchableOpacity>
   )

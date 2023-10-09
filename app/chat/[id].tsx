@@ -27,10 +27,11 @@ import AssistenteVirtual from '@/types/AssistenteVirtual'
 export default function ChatScreen() {
   useDeviceContext(tw)
   const { id }: { id: string } = useGlobalSearchParams()
-  const { conversas } = useContext(HomeContext)
+  const { conversas, setConversas } = useContext(HomeContext)
   const [assistente, setAssistente] = useState<AssistenteVirtual>()
   const [conversa, setConversa] = useState<Conversa>()
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
+  const [mensagemProvisoria, setMensagemProvisoria] = useState<Mensagem>()
   const [refreshing, setRefreshing] = useState(false)
   const [userInput, setUserInput] = useState<string>('')
   const { loading, startLoading, stopLoading } = useLoading()
@@ -76,10 +77,38 @@ export default function ChatScreen() {
     startLoading()
   }, [])
 
+  function setNewMessage(novaMensagem: Mensagem) {
+    let newMensagens: Mensagem[]
+    setMensagens((prev) => {
+      newMensagens = [...prev, novaMensagem]
+      return newMensagens
+    })
+    setConversas((prev) => {
+      const newConversa = prev.filter(
+        (oldConversa) => oldConversa.id !== conversa?.id,
+      )
+      return [
+        ...newConversa,
+        {
+          ...conversa,
+          Mensagem: newMensagens,
+        } as Conversa,
+      ]
+    })
+  }
+
   async function sendMessage() {
     startRecebendo()
     setUserInput('')
     const stringSemEspacos = userInput.replace(/^\s+|\s+$/g, '')
+    setMensagemProvisoria({
+      texto: stringSemEspacos,
+      role: 'user',
+      dataHora: new Date(),
+      conversaId: '123123',
+      id: '123123123',
+    })
+    startDigitando()
     const novaMensagem = await sendMessageToChat({
       role: 'user',
       mensagem: stringSemEspacos,
@@ -91,9 +120,9 @@ export default function ChatScreen() {
         duration: Toast.durations.SHORT,
       })
     })
+    setMensagemProvisoria(undefined)
     if (novaMensagem) {
-      setMensagens((prev) => [...prev, novaMensagem])
-      startDigitando()
+      setNewMessage(novaMensagem)
       const resposta = await getRespostaGPT([...mensagens, novaMensagem]).catch(
         () => {
           Toast.show('Erro ao receber resposta.', {
@@ -127,7 +156,7 @@ export default function ChatScreen() {
         duration: Toast.durations.SHORT,
       })
     })
-    if (novaMensagem) setMensagens((prev) => [...prev, novaMensagem])
+    if (novaMensagem) setNewMessage(novaMensagem)
   }
 
   const messagesRef = useRef<ScrollView>(null)
@@ -167,6 +196,9 @@ export default function ChatScreen() {
           }
         >
           <View style={[tw`w-full flex-1 flex-col-reverse  gap-2 p-4 pb-2`]}>
+            {mensagemProvisoria && (
+              <BalaoMensagem mensagem={mensagemProvisoria} />
+            )}
             {mensagens &&
               mensagens
                 .sort((a, b) => compareDate(b.dataHora, a.dataHora))
