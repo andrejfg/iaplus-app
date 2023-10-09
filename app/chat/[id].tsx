@@ -27,7 +27,7 @@ import AssistenteVirtual from '@/types/AssistenteVirtual'
 export default function ChatScreen() {
   useDeviceContext(tw)
   const { id }: { id: string } = useGlobalSearchParams()
-  const { conversas, setConversas } = useContext(HomeContext)
+  const { assistentes, conversas, setConversas } = useContext(HomeContext)
   const [assistente, setAssistente] = useState<AssistenteVirtual>()
   const [conversa, setConversa] = useState<Conversa>()
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
@@ -50,7 +50,11 @@ export default function ChatScreen() {
     const newConversa = conversas.find((conversa) => conversa.id === id)
     if (newConversa) {
       setConversa(newConversa)
-      setAssistente(newConversa.pessoaVirtual)
+      setAssistente(
+        assistentes.find(
+          (assistente) => assistente.id === newConversa.virtualId,
+        ),
+      )
       setMensagens(newConversa.Mensagem)
     } else {
       router.replace('/conversas')

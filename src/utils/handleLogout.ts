@@ -2,6 +2,7 @@ import { HomeContextProps } from '@/contexts/HomeContext'
 import { removeToken } from '@/hooks/useAuth'
 
 export default async function handleLogout(context: HomeContextProps) {
+  context.closeWebSocket()
   context.setUser(undefined)
   context.setAssistentes([])
   context.setConversas([])
