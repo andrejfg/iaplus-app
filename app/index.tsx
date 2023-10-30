@@ -14,16 +14,27 @@ import useLoading from '@/hooks/useLoading'
 import { HomeContext } from '@/contexts/HomeContext'
 import { api } from '@/api/api'
 import Toast from 'react-native-root-toast'
+import getUserInfo from '@/utils/getUserInfo'
+import getUserConversas from '@/api/getUserConversas'
+import getAssistentesVirtuais from '@/api/getAssistentesVirtuais'
 
 export default function LoginScreen() {
   useDeviceContext(tw)
-  const { openWebSocket } = useContext(HomeContext)
+  const { openWebSocket, setAssistentes, setConversas, setUser } =
+    useContext(HomeContext)
   const { isAuth, signInWithGoogle } = useGoogleAuth()
   const [serverWorking, setServerWorking] = useState(false)
   const { loading, startLoading, stopLoading } = useLoading()
 
   async function handleIsAuth() {
     openWebSocket()
+    startLoading()
+    setUser(await getUserInfo())
+    const conversa = await getUserConversas()
+    if (conversa) setConversas(conversa)
+    const assistentes = await getAssistentesVirtuais()
+    if (assistentes) setAssistentes(assistentes)
+    stopLoading()
     router.replace('/(tabs)/conversas')
   }
 

@@ -27,7 +27,7 @@ import AssistenteVirtual from '@/types/AssistenteVirtual'
 export default function ChatScreen() {
   useDeviceContext(tw)
   const { id }: { id: string } = useGlobalSearchParams()
-  const { assistentes, conversas, setConversas } = useContext(HomeContext)
+  const { conversas, setConversas } = useContext(HomeContext)
   const [assistente, setAssistente] = useState<AssistenteVirtual>()
   const [conversa, setConversa] = useState<Conversa>()
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
@@ -50,11 +50,7 @@ export default function ChatScreen() {
     const newConversa = conversas.find((conversa) => conversa.id === id)
     if (newConversa) {
       setConversa(newConversa)
-      setAssistente(
-        assistentes.find(
-          (assistente) => assistente.id === newConversa.virtualId,
-        ),
-      )
+      setAssistente(newConversa.pessoaVirtual)
       setMensagens(newConversa.Mensagem)
     } else {
       router.replace('/conversas')
@@ -200,14 +196,24 @@ export default function ChatScreen() {
           }
         >
           <View style={[tw`w-full flex-1 flex-col-reverse  gap-2 p-4 pb-2`]}>
+            {digitando && <BalaoMensagem role="system" />}
             {mensagemProvisoria && (
-              <BalaoMensagem mensagem={mensagemProvisoria} />
+              <BalaoMensagem
+                role={mensagemProvisoria.role}
+                dataHora={mensagemProvisoria.dataHora}
+                texto={mensagemProvisoria.texto}
+              />
             )}
             {mensagens &&
               mensagens
                 .sort((a, b) => compareDate(b.dataHora, a.dataHora))
                 .map((mensagem) => (
-                  <BalaoMensagem key={mensagem.id} mensagem={mensagem} />
+                  <BalaoMensagem
+                    key={mensagem.id}
+                    role={mensagem.role}
+                    dataHora={mensagem.dataHora}
+                    texto={mensagem.texto}
+                  />
                 ))}
           </View>
         </ScrollView>

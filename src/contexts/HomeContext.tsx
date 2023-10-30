@@ -14,6 +14,7 @@ export interface HomeContextProps {
   setConversas: React.Dispatch<React.SetStateAction<Conversa[]>>
   users: PessoaFisicaAdmin[] | undefined
   setUsers: React.Dispatch<React.SetStateAction<PessoaFisicaAdmin[]>>
+  socket: React.MutableRefObject<WebSocket | null>
   openWebSocket: () => void
   closeWebSocket: () => void
 }
@@ -31,7 +32,11 @@ export const HomeContextProvider = ({ children }: HomeContextProviderProps) => {
   const [conversas, setConversas] = useState<Conversa[]>([])
   const [users, setUsers] = useState<PessoaFisicaAdmin[]>([])
   const [user, setUser] = useState<User>()
-  const { openWebSocket, closeWebSocket } = useWebSocket()
+  const { socket, openWebSocket, closeWebSocket } = useWebSocket({
+    setAssistentes,
+    setUser,
+    setUsers,
+  })
 
   return (
     <HomeContext.Provider
@@ -44,6 +49,7 @@ export const HomeContextProvider = ({ children }: HomeContextProviderProps) => {
         setConversas,
         users,
         setUsers,
+        socket,
         openWebSocket,
         closeWebSocket,
       }}
